@@ -14,6 +14,19 @@ namespace instabot
             LoginPage loginPage = homePage.GoToLoginPage();
             ProfilePage profilePage = loginPage.Login(user.id, user.password);
             PostPage post = profilePage.Find_Post("emalroni");
+            if(user.like)
+            {
+                post.Click_Like();
+            }
+            if(user.save)
+            {
+                post.Click_Save();
+            }
+            if(user.target != null)
+            {
+                string msg = String.Format("@{0} {1}", user.target, user.message);
+                post.Leave_Comment(user.target, msg);
+            }
         }
 
         public static ChromeDriver Init_driver()

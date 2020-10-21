@@ -174,5 +174,29 @@ namespace ibTest
                 Assert.Fail(e.Message);
             }
         }
+
+        [TestMethod]
+        public void Test_Routine_FirstRoutine()
+        {
+            // Arrange
+            string filename = "ids.xlsx";
+            string dir = Directory.GetCurrentDirectory();
+            string path = Path.Combine(dir, filename);
+            string name = "A";
+            var user = Manager.GetUsers(path, name)[0];
+
+            // Action
+            try
+            {
+                var driver = Routine.Init_driver();
+                HomePage hpage = new HomePage(driver, "https://www.instagram.com");
+                LoginPage loginPage = hpage.GoToLoginPage();
+                loginPage.Login(user.id, user.password);
+            }
+            catch (Exception e)
+            {
+                Assert.Fail(e.Message);
+            }
+        }
     }
 }
