@@ -1,0 +1,6 @@
+TestResults/
+instabot/bin
+instabot/obj
+ibTest/bin
+ibTest/obj
+*.xlsx
