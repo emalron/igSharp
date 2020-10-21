@@ -19,9 +19,7 @@ namespace instabot
             var inputs = this.driver.FindElementsByCssSelector("div>div>label>input");
             Copy_Input(inputs[0], username);
             Copy_Input(inputs[1], password);
-            Console.WriteLine(inputs[0].GetAttribute("aria-label"));
-            // var buttons = this.driver.FindElementsByCssSelector("from>div>div>button");
-            var buttons = this.driver.FindElements(By.XPath("//*[@id='loginForm']/div/div[3]/button"));
+            var buttons = this.driver.FindElements(By.CssSelector("form>div>div>button"));
             bool noButtons = buttons == null || buttons.Count == 0;
             if(noButtons)
             {
