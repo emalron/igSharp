@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading;
 
 namespace instabot
 {
@@ -27,6 +28,16 @@ namespace instabot
                 string msg = String.Format("@{0} {1}", user.target, user.message);
                 post.Leave_Comment(user.target, msg);
             }
+            Thread.Sleep(5000);
+        }
+
+        public static void Second_Routine(User user)
+        {
+            var driver = Init_driver();
+            HomePage homePage = new HomePage(driver, "https://www.instagram.com");
+            LoginPage loginPage = homePage.GoToLoginPage();
+            ProfilePage profilePage = loginPage.Login(user.id, user.password);
+            PostPage post = profilePage.Find_Post("emalroni");
         }
 
         public static ChromeDriver Init_driver()

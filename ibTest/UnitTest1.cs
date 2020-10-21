@@ -183,20 +183,35 @@ namespace ibTest
             string dir = Directory.GetCurrentDirectory();
             string path = Path.Combine(dir, filename);
             string name = "A";
-            var user = Manager.GetUsers(path, name)[0];
+            var usersA = Manager.GetUsers(path, name);
+            var usersB = Manager.GetUsers(path, "B");
+            for (int i = 0; i < usersA.Count; i++)
+            {
+                usersA[i].target = usersB[i].id;
+            }
 
             // Action
-            try
+            usersA.ForEach((user) => { Routine.First_Routine(user); });
+        }
+
+
+        [TestMethod]
+        public void Test_Routine_SecondRoutine()
+        {
+            // Arrange
+            string filename = "ids.xlsx";
+            string dir = Directory.GetCurrentDirectory();
+            string path = Path.Combine(dir, filename);
+            string name = "A";
+            var usersA = Manager.GetUsers(path, name);
+            var usersB = Manager.GetUsers(path, "B");
+            for (int i = 0; i < usersA.Count; i++)
             {
-                var driver = Routine.Init_driver();
-                HomePage hpage = new HomePage(driver, "https://www.instagram.com");
-                LoginPage loginPage = hpage.GoToLoginPage();
-                loginPage.Login(user.id, user.password);
+                usersA[i].target = usersB[i].id;
             }
-            catch (Exception e)
-            {
-                Assert.Fail(e.Message);
-            }
+
+            // Action
+            usersB.ForEach((user) => { Routine.Second_Routine(user); });
         }
     }
 }
