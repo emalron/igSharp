@@ -44,14 +44,9 @@ namespace instabot
                 {
                     Thread.Sleep(3000);
                     tries++;
-                    string msg = String.Format("Trial_Click retry {0}", tries);
-                    Console.WriteLine(msg);
                 } else
                 {
                     element.Click();
-                    Thread.Sleep(2000);
-                    string msg = String.Format("Trial_Click success", tries);
-                    Console.WriteLine(msg);
                     return;
                 }
             }
@@ -63,10 +58,8 @@ namespace instabot
         public void Copy_Input(IWebElement target, string text)
         {
             ClipboardService.SetText(text);
-            string debug = String.Format("Copy_Input {0} {1}", text, target.GetAttribute("aria-label"));
             var action = new Actions(this.driver).MoveToElement(target).Click().KeyDown(Keys.Control).SendKeys("v").KeyUp(Keys.Control);
             action.Perform();
-            Console.WriteLine(debug);
         }
     }
 }

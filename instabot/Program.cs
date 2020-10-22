@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Threading;
+using System.Threading.Tasks;
 //Selenium Library
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
@@ -10,20 +11,27 @@ namespace instabot
 {
     class Program
     {
-        static void Main(string[] args)
+        static async Task Main(string[] args)
         {
             string filename = "ids.xlsx";
             string dir = Directory.GetCurrentDirectory();
             string path = Path.Combine(dir, filename);
-            string name = "A";
-            var usersA = Manager.GetUsers(path, name);
+            var usersA = Manager.GetUsers(path, "A");
             var usersB = Manager.GetUsers(path, "B");
-            for(int i=0; i<usersA.Count; i++)
+            var target = Manager.GetIndex(path, "C");
+            for (int i=0; i<usersA.Count; i++)
             {
                 usersA[i].target = usersB[i].id;
             }
 
-            usersA.ForEach((user) => { Routine.First_Routine(user); });
+            foreach(var user in usersA)
+            {
+                await Routine.First_RoutineAsync(user, target);
+            }
+            foreach(var user in usersB)
+            {
+                await Routine.Second_RoutineAsync(user);
+            }
         }
     }
 }
